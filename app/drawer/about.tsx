@@ -79,6 +79,8 @@ export default function AboutScreen() {
       <AppFooter />
 
     </ScrollView>
+
+    
   );
 }
 
