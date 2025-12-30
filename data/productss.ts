@@ -1,0 +1,68 @@
+export const PRODUCTS = [
+  {
+    id: 1,
+    name: 'Acacia Honey',
+    price: 1000,
+    image: require('@/assets/images/Acacia.png'),
+    rating: 5,
+    tag: 'PURE',
+  },
+  {
+    id: 2,
+    name: 'Black Honey',
+    price: 1000,
+    image: require('@/assets/images/Black_Honey.jpeg'),
+    rating: 5,
+    tag: 'PURE',
+  },
+  {
+    id: 3,
+    name: 'Clover Honey',
+    price: 1000,
+    image: require('@/assets/images/Acacia.png'),
+    rating: 5,
+    tag: 'PURE',
+  },
+  {
+    id: 4,
+    name: 'Cow Ghee',
+    price: 1000,
+    image: require('@/assets/images/Cow_ghee.png'),
+    rating: 5,
+    tag: 'PURE',
+  },
+  {
+    id: 5,
+    name: 'Jamun Honey',
+    price: 1000,
+    image: require('@/assets/images/Jamun_Honey.png'),
+    rating: 5,
+    tag: 'PURE',
+  },
+  {
+    id: 6,
+    name: 'Karanj Honey',
+    price: 1000,
+    image: require('@/assets/images/Karanj_Honey.jpeg'),
+    rating: 5,
+    tag: 'PURE',
+  },
+  {
+    id: 7,
+    name: 'Kashmir White Honey',
+    price: 1000,
+    image: require('@/assets/images/Kashmiri_White_Honey.png'),
+    rating: 5,
+    tag: 'PURE',
+  },
+  {
+    id: 8,
+    name: 'Lychee Honey',
+    price: 1000,
+    image: require('@/assets/images/lychee_honey.jpg'),
+    rating: 5,
+    tag: 'PURE',
+  },
+];
+
+

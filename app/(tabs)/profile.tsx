@@ -1,112 +1,215 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import React, { useState } from 'react';
+import {
+  Alert,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
-import { ExternalLink } from '@/components/external-link';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Collapsible } from '@/components/ui/collapsible';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Fonts } from '@/constants/theme';
+/* =======================
+   MAIN SCREEN
+======================= */
+export default function ProfileScreen() {
+  const [showEdit, setShowEdit] = useState(false);
 
-export default function TabTwoScreen() {
+  const [name, setName] = useState('BeeBro Honey');
+  const [email, setEmail] = useState('support@beebrohoney.com');
+  const [phone, setPhone] = useState('9876543210');
+
+  const saveProfile = () => {
+    setShowEdit(false);
+    Alert.alert('Success', 'Profile updated successfully');
+  };
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-          name="chevron.left.forwardslash.chevron.right"
-          style={styles.headerImage}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText
-          type="title"
-          style={{
-            fontFamily: Fonts.rounded,
-          }}>
-          Explore
-        </ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      {/* HEADER */}
+      <View style={styles.header}>
         <Image
-          source={require('@/assets/images/user2.png')}
-          style={{ width: 100, height: 100, alignSelf: 'center' }}
+          source={{ uri: 'https://i.pravatar.cc/300' }}
+          style={styles.avatar}
         />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user&apos;s current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful{' '}
-          <ThemedText type="defaultSemiBold" style={{ fontFamily: Fonts.mono }}>
-            react-native-reanimated
-          </ThemedText>{' '}
-          library to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
-    </ParallaxScrollView>
+        <Text style={styles.name}>{name}</Text>
+        <Text style={styles.email}>{email}</Text>
+      </View>
+
+      {/* STATS */}
+      <View style={styles.statsRow}>
+        <Stat value="12" label="Orders" />
+        <Stat value="4" label="Wishlist" />
+        <Stat value="₹2,450" label="Saved" />
+      </View>
+
+      {/* EDIT PROFILE */}
+      {showEdit && (
+        <View style={styles.editBox}>
+          <Input label="Full Name" value={name} onChange={setName} />
+          <Input label="Email" value={email} onChange={setEmail} />
+          <Input label="Mobile" value={phone} onChange={setPhone} />
+
+          <TouchableOpacity style={styles.saveBtn} onPress={saveProfile}>
+            <Text style={styles.saveText}>Save Changes</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+
+      {/* MENU */}
+      <View style={styles.menu}>
+        <MenuItem
+          icon="person-outline"
+          label="Edit Profile"
+          onPress={() => setShowEdit(!showEdit)}
+        />
+        <MenuItem icon="location-outline" label="Shipping Address" />
+        <MenuItem icon="receipt-outline" label="My Orders" />
+        <MenuItem icon="heart-outline" label="Wishlist" />
+        <MenuItem icon="shield-checkmark-outline" label="Privacy Policy" />
+        <MenuItem icon="log-out-outline" label="Logout" danger />
+      </View>
+    </ScrollView>
   );
 }
 
+/* =======================
+   COMPONENTS (FIXED)
+======================= */
+function Stat({ value, label }: { value: string; label: string }) {
+  return (
+    <View style={styles.statBox}>
+      <Text style={styles.statValue}>{value}</Text>
+      <Text style={styles.statLabel}>{label}</Text>
+    </View>
+  );
+}
+
+function MenuItem({
+  icon,
+  label,
+  danger,
+  onPress,
+}: {
+  icon: any;
+  label: string;
+  danger?: boolean;
+  onPress?: () => void;
+}) {
+  return (
+    <TouchableOpacity style={styles.menuItem} onPress={onPress}>
+      <Ionicons
+        name={icon}
+        size={22}
+        color={danger ? '#e63946' : '#444'}
+      />
+      <Text style={[styles.menuText, danger && { color: '#e63946' }]}>
+        {label}
+      </Text>
+      {!danger && (
+        <Ionicons name="chevron-forward" size={18} color="#aaa" />
+      )}
+    </TouchableOpacity>
+  );
+}
+
+function Input({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  onChange: (text: string) => void;
+}) {
+  return (
+    <View style={{ marginBottom: 12 }}>
+      <Text style={styles.inputLabel}>{label}</Text>
+      <TextInput
+        value={value}
+        onChangeText={onChange}
+        style={styles.input}
+      />
+    </View>
+  );
+}
+
+/* =======================
+   STYLES
+======================= */
 const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
+  container: { flex: 1, backgroundColor: '#fff' },
+
+  header: {
+    alignItems: 'center',
+    paddingVertical: 30,
+    borderBottomWidth: 1,
+    borderColor: '#eee',
   },
-  titleContainer: {
+
+  avatar: {
+    width: 110,
+    height: 110,
+    borderRadius: 55,
+    marginBottom: 10,
+  },
+
+  name: { fontSize: 20, fontWeight: '600' },
+  email: { color: '#777', marginTop: 4 },
+
+  statsRow: {
     flexDirection: 'row',
-    gap: 8,
+    justifyContent: 'space-around',
+    paddingVertical: 20,
+    borderBottomWidth: 1,
+    borderColor: '#eee',
   },
+
+  statBox: { alignItems: 'center' },
+  statValue: { fontSize: 18, fontWeight: '600' },
+  statLabel: { fontSize: 13, color: '#777', marginTop: 4 },
+
+  editBox: {
+    padding: 20,
+    borderBottomWidth: 1,
+    borderColor: '#eee',
+    backgroundColor: '#fafafa',
+  },
+
+  inputLabel: { fontSize: 13, color: '#666', marginBottom: 6 },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 8,
+    padding: 12,
+    backgroundColor: '#fff',
+  },
+
+  saveBtn: {
+    backgroundColor: '#f4a261',
+    padding: 14,
+    borderRadius: 8,
+    marginTop: 12,
+  },
+
+  saveText: {
+    color: '#fff',
+    textAlign: 'center',
+    fontWeight: '600',
+    fontSize: 16,
+  },
+
+  menu: { paddingHorizontal: 20 },
+
+  menuItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderColor: '#f0f0f0',
+  },
+
+  menuText: { flex: 1, marginLeft: 12, fontSize: 16 },
 });

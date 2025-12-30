@@ -1,8 +1,7 @@
-/*import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
-import { Tabs } from 'expo-router';
-import React from 'react';
+import { Tabs, router } from 'expo-router';
+import { Image, Pressable, Text, View } from 'react-native';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -10,54 +9,17 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: true,          // IMPORTANT
-      }}
-    >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          headerTitle: 'BeeBro Honey',
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={26} name="house.fill" color={color} />
-          ),
-        }}
-      />
-
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={26} name="magnifyingglass" color={color} />
-          ),
-        }}
-      />
-    </Tabs>
-  );
-}
-  */
- import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-import { router, Tabs } from 'expo-router';
-import React from 'react';
-import { Pressable, Text } from 'react-native';
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
-  return (
-    <Tabs
-      screenOptions={{
+        headerTitleAlign: 'center',
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
       }}
     >
+      {/* ================= HOME ================= */}
       <Tabs.Screen
         name="index"
         options={{
-          title: 'BeeBro Honey',
+          title:'BeeBro Honey',
+           headerTitleAlign: 'left',
+
           headerLeft: () => (
             <Pressable
               onPress={() => router.push('/menu')}
@@ -66,22 +28,107 @@ export default function TabLayout() {
               <Text style={{ fontSize: 22 }}>☰</Text>
             </Pressable>
           ),
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={26} name="house.fill" color={color} />
+
+          headerRight: () => (
+            <View style={{ flexDirection: 'row', gap: 14, paddingRight: 15 }}>
+              <Pressable onPress={() => router.push('/auth/login')}>
+                <Text style={{ color: '#E3B21B', fontWeight: '700' }}>
+                  Login
+                </Text>
+              </Pressable>
+
+              <Pressable onPress={() => router.push('/auth/signup')}>
+                <Text style={{ color: '#2E5E2E', fontWeight: '700' }}>
+                  Sign Up
+                </Text>
+              </Pressable>
+            </View>
+          ),
+
+          tabBarIcon: ({ focused }) => (
+            <Image
+              source={require('@/assets/icons/home.png')}
+              style={{
+                width: 22,
+                height: 22,
+                tintColor: focused ? '#E3B21B' : '#999',
+              }}
+            />
           ),
         }}
       />
 
+      {/* ================= EXPLORE ================= */}
       <Tabs.Screen
         name="explore"
         options={{
           title: 'Explore',
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={26} name="paperplane.fill" color={color} />
+          tabBarIcon: ({ focused }) => (
+            <Image
+              source={require('@/assets/icons/explore.png')}
+              style={{
+                width: 22,
+                height: 22,
+                tintColor: focused ? '#E3B21B' : '#999',
+              }}
+            />
+          ),
+        }}
+      />
+
+      {/* ================= CATEGORIES (NEW) ================= */}
+      <Tabs.Screen
+        name="categories"
+        options={{
+          title: 'Categories',
+          tabBarIcon: ({ focused }) => (
+            <Image
+              source={require('@/assets/icons/category.png')}
+              style={{
+                width: 22,
+                height: 22,
+                tintColor: focused ? '#E3B21B' : '#999',
+              }}
+            />
+          ),
+        }}
+      />
+
+      {/* ================= CART ================= */}
+      <Tabs.Screen
+        name="cart"
+        options={{
+          title: 'Cart',
+          tabBarIcon: ({ focused }) => (
+            <Image
+              source={require('@/assets/icons/cart.png')}
+              style={{
+                width: 22,
+                height: 22,
+                tintColor: focused ? '#E3B21B' : '#999',
+              }}
+            />
+          ),
+        }}
+      />
+
+      {/* ================= PROFILE ================= */}
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: 'Profile',
+          tabBarIcon: ({ focused }) => (
+            <Image
+              source={require('@/assets/icons/profile.png')}
+              style={{
+                width: 22,
+                height: 22,
+                tintColor: focused ? '#E3B21B' : '#999',
+              }}
+            />
           ),
         }}
       />
     </Tabs>
   );
 }
-

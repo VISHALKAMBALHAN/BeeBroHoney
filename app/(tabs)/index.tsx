@@ -1,9 +1,20 @@
+import HomeProductSlider from '@/components/ui/HomeProductSlider';
 import ProductCard from '@/components/ui/ProductCard';
+import { useRouter } from 'expo-router';
+
+
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function HomeScreen() {
+  const router = useRouter();
+
   return (
+
+    
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+
+  {/* ================= PRODUCT SLIDER ================= */}
+      <HomeProductSlider />
 
       {/* ================= HERO SECTION ================= */}
       <View style={styles.hero}>
@@ -17,9 +28,17 @@ export default function HomeScreen() {
             delivered straight from farm to your table.
           </Text>
 
-          <TouchableOpacity style={styles.primaryBtn}>
+          {/*<TouchableOpacity style={styles.primaryBtn}>
             <Text style={styles.primaryBtnText}>🛒 Shop Best Sellers</Text>
-          </TouchableOpacity>
+          </TouchableOpacity>*/}
+          <TouchableOpacity
+  style={styles.primaryBtn}
+  onPress={() => router.push('/products')}
+>
+  <Text style={styles.primaryBtnText}>
+    🛒 Shop Best Sellers
+  </Text>
+</TouchableOpacity>
         </View>
 
         <Image
@@ -46,6 +65,16 @@ export default function HomeScreen() {
           image={require('@/assets/images/jagg.jpg')}
         />
       </View>
+      
+     {/* ================= ALL PRODUCTS BUTTON ================= */}
+<TouchableOpacity
+  style={styles.allProductsBtn}
+  onPress={() => router.push('/products')}
+>
+  <Text style={styles.allProductsBtnText}>
+    View All Products →
+  </Text>
+</TouchableOpacity>
 
       {/* ================= OFFER BANNER ================= */}
       <View style={styles.offerBanner}>
@@ -260,6 +289,22 @@ const styles = StyleSheet.create({
     color: '#F0B429',
     marginVertical: 4,
   },
+  allProductsBtn: {
+  marginTop: 20,
+  marginHorizontal: 20,
+  paddingVertical: 14,
+  borderRadius: 30,
+  borderWidth: 1.5,
+  borderColor: '#E3B21B',
+  alignItems: 'center',
+},
+
+allProductsBtnText: {
+  color: '#E3B21B',
+  fontWeight: '800',
+  fontSize: 15,
+},
+
   footerCopy: {
     color: '#aaa',
     fontSize: 11,
