@@ -1,22 +1,36 @@
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import React from 'react';
-import { Image, ScrollView, StyleSheet, Text } from 'react-native';
+import { Alert, Image, ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { useCart } from '../context/CartContext';
 
 export default function ProductDetailScreen() {
-  const { id, name, price, image } = useLocalSearchParams<{
+  const { id, name, price } = useLocalSearchParams<{
     id: string;
     name: string;
     price: string;
-    image?: string;
   }>();
+
+  const { addToCart } = useCart();
+
+  const handleAddToCart = () => {
+    addToCart({
+      id,
+      name,
+      price,
+      qty: 1,
+    });
+
+    Alert.alert('Added to Cart', `${name} added successfully`, [
+      { text: 'Go to Cart', onPress: () => router.push('/cart') },
+      { text: 'OK' },
+    ]);
+  };
 
   return (
     <ScrollView style={styles.container}>
       <Image
         source={{
-          uri:
-            image ||
-            'https://via.placeholder.com/400x400.png?text=BeeBro+Product',
+          uri: 'https://via.placeholder.com/400x400.png?text=BeeBro+Product',
         }}
         style={styles.image}
       />
@@ -25,9 +39,13 @@ export default function ProductDetailScreen() {
       <Text style={styles.price}>{price}</Text>
 
       <Text style={styles.desc}>
-        100% pure and natural BeeBro Honey product. Carefully sourced and packed
+        100% pure and natural BeeBro product. Carefully sourced and packed
         to maintain quality and taste.
       </Text>
+
+      <TouchableOpacity style={styles.cartBtn} onPress={handleAddToCart}>
+        <Text style={styles.cartText}>Add to Cart</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 }
@@ -35,11 +53,7 @@ export default function ProductDetailScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#fff' },
   image: { width: '100%', height: 300 },
-  name: {
-    fontSize: 22,
-    fontWeight: '600',
-    margin: 15,
-  },
+  name: { fontSize: 22, fontWeight: '600', margin: 15 },
   price: {
     fontSize: 18,
     fontWeight: '600',
@@ -51,5 +65,17 @@ const styles = StyleSheet.create({
     color: '#555',
     margin: 15,
     lineHeight: 20,
+  },
+  cartBtn: {
+    backgroundColor: '#f4a261',
+    padding: 16,
+    margin: 15,
+    borderRadius: 10,
+  },
+  cartText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+    textAlign: 'center',
   },
 });
