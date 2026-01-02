@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 import React, { useState } from 'react';
 import {
   Alert,
@@ -10,13 +11,16 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { useAuth } from '../context/AuthContext';
 
 /* =======================
-   MAIN SCREEN
+   PROFILE SCREEN
 ======================= */
-export default function ProfileScreen() {
-  const [showEdit, setShowEdit] = useState(false);
 
+export default function ProfileScreen() {
+  const { logout } = useAuth();
+
+  const [showEdit, setShowEdit] = useState(false);
   const [name, setName] = useState('BeeBro Honey');
   const [email, setEmail] = useState('support@beebrohoney.com');
   const [phone, setPhone] = useState('9876543210');
@@ -65,19 +69,31 @@ export default function ProfileScreen() {
           label="Edit Profile"
           onPress={() => setShowEdit(!showEdit)}
         />
-        <MenuItem icon="location-outline" label="Shipping Address" />
-        <MenuItem icon="receipt-outline" label="My Orders" />
+        <MenuItem
+          icon="receipt-outline"
+          label="My Orders"
+          onPress={() => router.push('/profile/orders')}
+        />
         <MenuItem icon="heart-outline" label="Wishlist" />
         <MenuItem icon="shield-checkmark-outline" label="Privacy Policy" />
-        <MenuItem icon="log-out-outline" label="Logout" danger />
+        <MenuItem
+          icon="log-out-outline"
+          label="Logout"
+          danger
+          onPress={() => {
+            logout();
+            router.replace('/auth/login');
+          }}
+        />
       </View>
     </ScrollView>
   );
 }
 
 /* =======================
-   COMPONENTS (FIXED)
+   COMPONENTS
 ======================= */
+
 function Stat({ value, label }: { value: string; label: string }) {
   return (
     <View style={styles.statBox}>
@@ -139,6 +155,7 @@ function Input({
 /* =======================
    STYLES
 ======================= */
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#fff' },
 

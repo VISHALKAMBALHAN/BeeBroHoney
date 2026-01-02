@@ -22,7 +22,7 @@ export default function MenuScreen() {
 
       <TouchableOpacity
         style={styles.item}
-        onPress={() => router.push('/drawer/orders')}
+        onPress={() => router.push('/profile/orders')}
       >
         <Text style={styles.text}>My Orders</Text>
       </TouchableOpacity>

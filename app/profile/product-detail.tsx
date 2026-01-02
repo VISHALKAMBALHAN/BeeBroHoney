@@ -1,6 +1,14 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import React from 'react';
-import { Alert, Image, ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import {
+  Alert,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
+import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 
 export default function ProductDetailScreen() {
@@ -10,9 +18,17 @@ export default function ProductDetailScreen() {
     price: string;
   }>();
 
+  const { user } = useAuth();
   const { addToCart } = useCart();
 
+  // ✅ UPDATED ADD TO CART LOGIC
   const handleAddToCart = () => {
+    // 🔒 LOGIN REQUIRED ONLY WHEN BUYING
+    if (!user) {
+      router.push('/auth/login');
+      return;
+    }
+
     addToCart({
       id,
       name,
@@ -43,6 +59,7 @@ export default function ProductDetailScreen() {
         to maintain quality and taste.
       </Text>
 
+      {/* ✅ BUTTON */}
       <TouchableOpacity style={styles.cartBtn} onPress={handleAddToCart}>
         <Text style={styles.cartText}>Add to Cart</Text>
       </TouchableOpacity>
